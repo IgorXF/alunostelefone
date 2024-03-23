@@ -13,9 +13,6 @@ import java.util.Map;
  */
 public class Att2 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         List<Aluno> aluno = new ArrayList<>();
         Telefone t1 = new Telefone("32","3737-9888", "trabalho", "vivo");
