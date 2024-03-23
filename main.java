@@ -48,49 +48,53 @@ public class Att2 {
         
         Telefone t9 = new Telefone("34","3737-9888", "trabalho", "tim");
         Telefone t10 = new Telefone("35","3212-1212", "casa", "oi");
-        Aluno a5 = new Aluno("victor","2024-12", "victor@gmail.com", "Computação");
+        Aluno a5 = new Aluno("Karla","2024-12", "Karla@gmail.com", "Computação");
         aluno.add(a5);
         a5.addTelefone(t9);
         a5.addTelefone(t10);
        
-        encontrarAlunosPorDDDEOperadora(aluno);
-        
-       
+        mesmoDDD(aluno);
+        mesmaOperadora(aluno);
     }
-     public static void encontrarAlunosPorDDDEOperadora(List<Aluno> alunos) {
-        Map<String, List<Aluno>> dddParaAlunos = new HashMap<>();
-        Map<String, List<Aluno>> operadoraParaAlunos = new HashMap<>();
+    
+    public static void mesmoDDD(List<Aluno> alunos){
+         Map<String, List<Aluno>> dddParaAlunos = new HashMap<>();
+         for (Aluno aluno : alunos) {
+            for (Telefone telefone : aluno.getTel()) {
+                String ddd = telefone.getDDD();
+                
+                 if (!dddParaAlunos.containsKey(ddd)) {
+                    dddParaAlunos.put(ddd, new ArrayList<>());
+                 }
+                 dddParaAlunos.get(ddd).add(aluno);
+           } 
+         }
+        System.out.println("Alunos agrupados por DDD:");
+        dddParaAlunos.entrySet().forEach(entry -> {
+        System.out.println("DDD: " + entry.getKey());
+        entry.getValue().forEach(aluno -> System.out.println("Nome: " + aluno.getNome()));
+        });
+    }
+    
+    
+     public static void mesmaOperadora(List<Aluno> alunos) {
+        Map<String, List<Aluno>> operadoraDosAlunos = new HashMap<>();
 
         for (Aluno aluno : alunos) {
             for (Telefone telefone : aluno.getTel()) {
-                String ddd = telefone.getDDD();
                 String operadora = telefone.getOperadora();
 
-                // Agrupar por DDD
-                if (!dddParaAlunos.containsKey(ddd)) {
-                    dddParaAlunos.put(ddd, new ArrayList<>());
+                if (!operadoraDosAlunos.containsKey(operadora)) {
+                    operadoraDosAlunos.put(operadora, new ArrayList<>());
                 }
-                dddParaAlunos.get(ddd).add(aluno);
-
-                // Agrupar por operadora
-                if (!operadoraParaAlunos.containsKey(operadora)) {
-                    operadoraParaAlunos.put(operadora, new ArrayList<>());
-                }
-                operadoraParaAlunos.get(operadora).add(aluno);
+                operadoraDosAlunos.get(operadora).add(aluno);
             }
         }
 
-        // Imprimir grupos por DDD
        System.out.println("Alunos agrupados por operadora:");
-        operadoraParaAlunos.entrySet().forEach(entry -> {
-        System.out.println("Operadora: " + entry.getKey());
-         entry.getValue().forEach(aluno -> System.out.println("Nome: " + aluno.getNome()));
-    });
-
-    System.out.println("Alunos agrupados por DDD:");
-    dddParaAlunos.entrySet().forEach(entry -> {
-    System.out.println("DDD: " + entry.getKey());
-    entry.getValue().forEach(aluno -> System.out.println("Nome: " + aluno.getNome()));
-});
+       operadoraDosAlunos.entrySet().forEach(entry -> {
+       System.out.println("Operadora: " + entry.getKey());
+       entry.getValue().forEach(aluno -> System.out.println("Nome: " + aluno.getNome()));
+       });
     }
 }
